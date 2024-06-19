@@ -65,8 +65,8 @@ public static class Chroma
             throw new RazerException(response.ErrorMessage, response.ErrorCode);
         }
 
-        IsReady = true;
         uri = response.Uri;
+        IsReady = true;
     }
     /// <summary>
     /// Sends a heartbeat to the Razer Ports.
