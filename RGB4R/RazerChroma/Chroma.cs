@@ -2,6 +2,7 @@
 using Flurl;
 using Flurl.Http;
 using GTA;
+using RGB4R.Extensions;
 
 namespace RGB4R.RazerChroma;
 
@@ -56,19 +57,8 @@ public static class Chroma
             ],
         };
 
-        Task<IFlurlResponse> taskPost = Task.Run(() => uri.PostJsonAsync(initData));
-        while (!taskPost.IsCompleted)
-        {
-            Script.Yield();
-        }
-        IFlurlResponse resp = taskPost.Result;
-
-        Task<InitResponse> taskText = Task.Run(() => resp.GetJsonAsync<InitResponse>());
-        while (!taskText.IsCompleted)
-        {
-            Script.Yield();
-        }
-        InitResponse response = taskText.Result;
+        IFlurlResponse flurlResponse = uri.PostJsonSync(initData);
+        InitResponse response = flurlResponse.GetJsonSync<InitResponse>();
 
         if (response.ErrorCode != RazerError.Success)
         {
@@ -83,14 +73,9 @@ public static class Chroma
     /// </summary>
     public static void PerformHeartbeat()
     {
-        if (!IsReady)
+        if (IsReady && lastHeartbeat + 1000 <= Game.GameTime)
         {
-            return;
-        }
-        
-        if (lastHeartbeat + 1000 <= Game.GameTime)
-        {
-            Task.Run(() => uri.AppendPathSegment("heartbeat").PutAsync());
+            uri.AppendPathSegment("heartbeat").PutSync();
             lastHeartbeat = Game.GameTime;
         }
     }
@@ -99,12 +84,9 @@ public static class Chroma
     /// </summary>
     public static void Uninitialize()
     {
-        if (!IsReady) return;
-
-        Task task = Task.Run(() => uri.DeleteAsync());
-        while (!task.IsCompleted)
+        if (IsReady)
         {
-            Script.Yield();
+            uri.DeleteSync();
         }
     }
 
