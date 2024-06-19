@@ -18,8 +18,13 @@ public class InitResponse
     [JsonProperty("uri")]
     public string Uri { get; set; }
     /// <summary>
+    /// The error message, if any.
+    /// </summary>
+    [JsonProperty("error")]
+    public string ErrorMessage { get; set; }
+    /// <summary>
     /// The result error, if any.
     /// </summary>
     [JsonProperty("result")]
-    public RazerError Error { get; set; }
+    public RazerError ErrorCode { get; set; }
 }
