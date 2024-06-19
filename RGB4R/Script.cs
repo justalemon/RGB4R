@@ -1,6 +1,7 @@
 ﻿using GTA;
 using System;
 using System.Windows.Forms;
+using RGB4R.RazerChroma;
 
 namespace RGB4R;
 
@@ -16,7 +17,7 @@ public class RGB4R : Script
 
     public RGB4R()
     {
-        Tick += OnTick;
+        Tick += OnInit;
         KeyDown += OnKeyDown;
         KeyUp += OnKeyUp;
     }
@@ -25,8 +26,15 @@ public class RGB4R : Script
     
     #region Event Functions
 
+    private void OnInit(object sender, EventArgs e)
+    {
+        Chroma.Initialize();
+        Tick -= OnInit;
+        Tick += OnTick;
+    }
     private void OnTick(object sender, EventArgs e)
     {
+        Chroma.PerformHeartbeat();
     }
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
