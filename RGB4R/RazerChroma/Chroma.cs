@@ -94,6 +94,19 @@ public static class Chroma
             lastHeartbeat = Game.GameTime;
         }
     }
+    /// <summary>
+    /// Uninitializes the Razer Chroma connection.
+    /// </summary>
+    public static void Uninitialize()
+    {
+        if (!IsReady) return;
+
+        Task task = Task.Run(() => uri.DeleteAsync());
+        while (!task.IsCompleted)
+        {
+            Script.Yield();
+        }
+    }
 
     #endregion
 }

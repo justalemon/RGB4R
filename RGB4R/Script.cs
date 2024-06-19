@@ -41,6 +41,7 @@ public class RGB4R : Script
     }
     private void OnKeyUp(object sender, KeyEventArgs e)
     {
+        Chroma.Uninitialize();
     }
 
     #endregion
