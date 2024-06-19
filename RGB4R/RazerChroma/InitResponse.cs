@@ -10,7 +10,7 @@ public class InitResponse
     /// <summary>
     /// The ID of the Session
     /// </summary>
-    [JsonProperty("session")]
+    [JsonProperty("sessionid")]
     public int SessionId { get; set; }
     /// <summary>
     /// The URI that corresponds to the session.
