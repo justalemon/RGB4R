@@ -25,21 +25,10 @@ public class InitData
     [JsonProperty("description")]
     public string Description { get; set; }
     /// <summary>
-    /// The name of the author.
+    /// The author of the application.
     /// </summary>
-    /// <remarks>
-    /// Maximum allowed length is 64 characters.
-    /// </remarks>
     [JsonProperty("author")]
-    public string Author { get; set; }
-    /// <summary>
-    /// A contact URL or Address for the application.
-    /// </summary>
-    /// <remarks>
-    /// Maximum allowed length is 64 characters.
-    /// </remarks>
-    [JsonProperty("contact")]
-    public string Contact { get; set; }
+    public InitAuthor Author { get; set; }
     /// <summary>
     /// The devices that are supported by the application.
     /// </summary>
