@@ -20,8 +20,9 @@ public class RGB4R : Script
         Tick += OnInit;
         KeyDown += OnKeyDown;
         KeyUp += OnKeyUp;
+        Aborted += OnAborted;
     }
-    
+
     #endregion
     
     #region Event Functions
@@ -40,6 +41,9 @@ public class RGB4R : Script
     {
     }
     private void OnKeyUp(object sender, KeyEventArgs e)
+    {
+    }
+    private void OnAborted(object sender, EventArgs e)
     {
         Chroma.Uninitialize();
     }
