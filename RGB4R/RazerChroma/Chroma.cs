@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Flurl;
+﻿using Flurl;
 using Flurl.Http;
 using GTA;
+using Newtonsoft.Json.Linq;
 using RGB4R.Extensions;
 
 namespace RGB4R.RazerChroma;
@@ -28,6 +28,24 @@ public static class Chroma
     /// The current Session ID.
     /// </summary>
     public static int SessionId { get; private set; }
+
+    #endregion
+    
+    #region Tools
+
+    private static JObject EffectToJson(Effect effect)
+    {
+        JObject obj = new JObject();
+
+        if (effect is EffectStatic staticEffect)
+        {
+            obj["effect"] = "CHROMA_STATIC";
+            obj["param"] = new JObject();
+            obj["param"]["color"] = staticEffect.Color.ToArgb();
+        }
+
+        return obj;
+    }
 
     #endregion
 
