@@ -43,5 +43,6 @@ public class InitData
     /// <remarks>
     /// This is either application or game.
     /// </remarks>
+    [JsonProperty("category")]
     public string Category { get; set; } = "game";
 }
