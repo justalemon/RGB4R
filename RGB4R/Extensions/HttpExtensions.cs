@@ -52,6 +52,22 @@ public static class HttpExtensions
         }
         return request.Result;
     }
+
+    /// <summary>
+    /// Makes a PUT request.
+    /// </summary>
+    /// <param name="url">The URL to request.</param>
+    /// <param name="data">The data to send.</param>
+    /// <returns>The result of the response.</returns>
+    public static IFlurlResponse PutJsonSync(this Url url, object data)
+    {
+        Task<IFlurlResponse> request = Task.Run(() => url.PutJsonAsync(data));
+        while (!request.IsCompleted)
+        {
+            Script.Yield();
+        }
+        return request.Result;
+    }
     /// <summary>
     /// Makes a DELETE request.
     /// </summary>
