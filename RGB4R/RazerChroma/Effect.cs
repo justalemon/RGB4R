@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Flurl;
+using Flurl.Http;
+using Newtonsoft.Json.Linq;
+using RGB4R.Extensions;
 
 namespace RGB4R.RazerChroma;
 
@@ -40,9 +44,16 @@ public abstract class Effect
             {
                 Register(device);
             }
+
+            JObject payload = new JObject
+            {
+                ["id"] = Ids[device].ToString()
+            };
+
+            Url url = Chroma.Endpoint.Clone().AppendPathSegment("effect");
+            IFlurlResponse r = url.PutJsonSync(payload);
+            GTA.UI.Screen.ShowSubtitle(r.GetStringSync());
         }
-        
-        // TODO: Implement playback
     }
 
     #endregion
