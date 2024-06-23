@@ -27,7 +27,7 @@ public static class Chroma
     /// <summary>
     /// The currently assigned endpoint.
     /// </summary>
-    public static Uri Endpoint { get; private set; }
+    public static Url Endpoint { get; private set; }
 
     #endregion
 
@@ -65,7 +65,7 @@ public static class Chroma
             throw new RazerException(response.ErrorMessage, response.ErrorCode);
         }
 
-        Endpoint = new Uri(response.Uri);
+        Endpoint = response.Uri;
         IsReady = true;
     }
     /// <summary>
