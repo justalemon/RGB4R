@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RGB4R.RazerChroma;
 
@@ -12,11 +13,7 @@ public abstract class Effect
     /// <summary>
     /// The ID of this effect, if registered with Razer Chroma.
     /// </summary>
-    public Guid Id { get; protected set; }
-    /// <summary>
-    /// Whether the effect is registered or not.
-    /// </summary>
-    public bool IsRegistered => Id != Guid.Empty;
+    public Dictionary<Device, Guid> Ids { get; } = [];
 
     #endregion
     
@@ -25,7 +22,28 @@ public abstract class Effect
     /// <summary>
     /// Registers this effect with Razer.
     /// </summary>
-    public abstract void Register();
+    public abstract void Register(Device device);
+    /// <summary>
+    /// Checks whether a specific device type of the effect is registered.
+    /// </summary>
+    /// <param name="device">The device type to check.</param>
+    public bool IsRegistered(Device device) => Ids.ContainsKey(device);
+    /// <summary>
+    /// Plays the animation.
+    /// </summary>
+    /// <param name="devices">The devices to play the animation in.</param>
+    public void Play(params Device[] devices)
+    {
+        foreach (Device device in devices)
+        {
+            if (!IsRegistered(device))
+            {
+                Register(device);
+            }
+        }
+        
+        // TODO: Implement playback
+    }
 
     #endregion
 }
