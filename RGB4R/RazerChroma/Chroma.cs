@@ -24,10 +24,6 @@ public static class Chroma
     /// Whether the Razer Synapse subsystem is ready to work.
     /// </summary>
     public static bool IsReady { get; private set; }
-    /// <summary>
-    /// The current Session ID.
-    /// </summary>
-    public static int SessionId { get; private set; }
 
     #endregion
     
