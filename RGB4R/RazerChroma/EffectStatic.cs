@@ -57,7 +57,7 @@ public class EffectStatic : Effect
         Url url = Chroma.Endpoint.Clone().AppendPathSegment(device.ToString().ToLower());
         IFlurlResponse resp = url.PostJsonSync(payload);
         string data = resp.GetStringSync();
-        RegistrationResult result = JsonConvert.DeserializeObject<RegistrationResult>(data);
+        Registration result = JsonConvert.DeserializeObject<Registration>(data);
 
         if (result.Error != RazerError.Success)
         {

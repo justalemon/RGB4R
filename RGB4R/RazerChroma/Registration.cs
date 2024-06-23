@@ -6,7 +6,7 @@ namespace RGB4R.RazerChroma;
 /// <summary>
 /// The data sent back after registering an effect.
 /// </summary>
-public class RegistrationResult
+public class Registration
 {
     /// <summary>
     /// A message related to the color.
