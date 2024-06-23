@@ -75,7 +75,7 @@ public static class Chroma
     {
         if (IsReady && lastHeartbeat + 1000 <= Game.GameTime)
         {
-            Endpoint.AppendPathSegment("heartbeat").PutSync();
+            Endpoint.Clone().AppendPathSegment("heartbeat").PutSync();
             lastHeartbeat = Game.GameTime;
         }
     }
