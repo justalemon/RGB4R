@@ -1,4 +1,5 @@
-﻿using Flurl;
+﻿using System;
+using Flurl;
 using Flurl.Http;
 using GTA;
 using Newtonsoft.Json.Linq;
@@ -13,7 +14,7 @@ public static class Chroma
 {
     #region Fields
 
-    private static string uri = "http://localhost:54235/razer/chromasdk";
+    private static string registrationUri = "http://localhost:54235/razer/chromasdk";
     private static int lastHeartbeat = -1;
     
     #endregion
@@ -24,24 +25,6 @@ public static class Chroma
     /// Whether the Razer Synapse subsystem is ready to work.
     /// </summary>
     public static bool IsReady { get; private set; }
-
-    #endregion
-    
-    #region Tools
-
-    private static JObject EffectToJson(Effect effect)
-    {
-        JObject obj = new JObject();
-
-        if (effect is EffectStatic staticEffect)
-        {
-            obj["effect"] = "CHROMA_STATIC";
-            obj["param"] = new JObject();
-            obj["param"]["color"] = staticEffect.Color.ToArgb();
-        }
-
-        return obj;
-    }
 
     #endregion
 
