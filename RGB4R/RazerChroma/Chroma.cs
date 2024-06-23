@@ -2,7 +2,6 @@
 using Flurl;
 using Flurl.Http;
 using GTA;
-using Newtonsoft.Json.Linq;
 using RGB4R.Extensions;
 
 namespace RGB4R.RazerChroma;
@@ -14,17 +13,21 @@ public static class Chroma
 {
     #region Fields
 
-    private static string registrationUri = "http://localhost:54235/razer/chromasdk";
+    private const string registrationUri = "http://localhost:54235/razer/chromasdk";
     private static int lastHeartbeat = -1;
-    
+
     #endregion
-    
+
     #region Properties
 
     /// <summary>
     /// Whether the Razer Synapse subsystem is ready to work.
     /// </summary>
     public static bool IsReady { get; private set; }
+    /// <summary>
+    /// The currently assigned endpoint.
+    /// </summary>
+    public static Uri Endpoint { get; private set; }
 
     #endregion
 
@@ -54,7 +57,7 @@ public static class Chroma
             ],
         };
 
-        IFlurlResponse flurlResponse = uri.PostJsonSync(initData);
+        IFlurlResponse flurlResponse = registrationUri.PostJsonSync(initData);
         InitResponse response = flurlResponse.GetJsonSync<InitResponse>();
 
         if (response.ErrorCode != RazerError.Success)
@@ -62,7 +65,7 @@ public static class Chroma
             throw new RazerException(response.ErrorMessage, response.ErrorCode);
         }
 
-        uri = response.Uri;
+        Endpoint = new Uri(response.Uri);
         IsReady = true;
     }
     /// <summary>
@@ -72,7 +75,7 @@ public static class Chroma
     {
         if (IsReady && lastHeartbeat + 1000 <= Game.GameTime)
         {
-            uri.AppendPathSegment("heartbeat").PutSync();
+            Endpoint.AppendPathSegment("heartbeat").PutSync();
             lastHeartbeat = Game.GameTime;
         }
     }
@@ -83,7 +86,7 @@ public static class Chroma
     {
         if (IsReady)
         {
-            uri.DeleteSync();
+            Endpoint.DeleteSync();
         }
     }
 
