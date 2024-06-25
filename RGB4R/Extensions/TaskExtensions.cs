@@ -19,7 +19,7 @@ public static class TaskExtensions
     {
         Task<T> newTask = Task.Run(() => task);
 
-        while (!newTask.IsCompleted)
+        while (!newTask.IsCompleted && !newTask.IsFaulted)
         {
             Script.Yield();
         }
