@@ -68,6 +68,11 @@ public class RGB4R : Script
     }
     private void OnTick(object sender, EventArgs e)
     {
+        while (!Chroma.IsReady)
+        {
+            Yield();
+        }
+
         Chroma.PerformHeartbeat();
 
         Model currentModel = Game.Player.Character.Model;
