@@ -56,6 +56,11 @@ public class RGB4R : Script
     private void OnInit(object sender, EventArgs e)
     {
         Chroma.Initialize();
+        colorMichael.RegisterAll();
+        colorFranklin.RegisterAll();
+        colorTrevor.RegisterAll();
+        colorFreemode.RegisterAll();
+        Wait(100);
         Tick -= OnInit;
         Tick += OnTick;
     }
