@@ -57,7 +57,7 @@ public static class Chroma
             ],
         };
 
-        IFlurlResponse flurlResponse = registrationUri.PostJsonSync(initData);
+        IFlurlResponse flurlResponse = registrationUri.PostJsonAsync(initData).Yield();
         InitResponse response = flurlResponse.GetJsonSync<InitResponse>();
 
         if (response.ErrorCode != RazerError.Success)
@@ -75,7 +75,7 @@ public static class Chroma
     {
         if (IsReady && lastHeartbeat + 1000 <= Game.GameTime)
         {
-            Endpoint.Clone().AppendPathSegment("heartbeat").PutSync();
+            Endpoint.Clone().AppendPathSegment("heartbeat").PutAsync().Yield();
             lastHeartbeat = Game.GameTime;
         }
     }
@@ -86,7 +86,7 @@ public static class Chroma
     {
         if (IsReady)
         {
-            Endpoint.DeleteSync();
+            Endpoint.DeleteAsync().Yield();
         }
     }
 
