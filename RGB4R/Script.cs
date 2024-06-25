@@ -1,6 +1,7 @@
 ﻿using GTA;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using GTA.Native;
 using GTA.UI;
@@ -37,6 +38,8 @@ public class RGB4R : Script
 
     #region Tools
 
+    [DllImport("shlwapi.dll")]
+    private static extern int ColorHLSToRGB(int h, int l, int s);
     private static EffectStatic GetEffectFromGameColor(int id)
     {
         int r = 0;
@@ -48,8 +51,13 @@ public class RGB4R : Script
             Function.Call(Hash.GET_HUD_COLOUR, id, &r, &g, &b, &a);
         }
 
-        Color color = Color.FromArgb(255, r, g, b);
-        return new EffectStatic(color);
+        Color existingColor = Color.FromArgb(255, r, g, b);
+
+        int hue = (int)Math.Round(240f * (existingColor.GetHue() / 360f));
+        int lightness = (int)Math.Round(240f * existingColor.GetBrightness());
+
+        int newColor = ColorHLSToRGB(hue, lightness, 240);
+        return new EffectStatic(Color.FromArgb(newColor));
     }
     private static void StartChroma()
     {
