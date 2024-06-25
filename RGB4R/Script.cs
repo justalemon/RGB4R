@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using GTA.Native;
+using GTA.UI;
 using RGB4R.RazerChroma;
 
 namespace RGB4R;
@@ -52,6 +53,7 @@ public class RGB4R : Script
     }
     private static void StartChroma()
     {
+        Notification.Show($"Connecting to ~r~R~g~a~y~z~o~e~p~r ~r~C~g~h~y~r~o~o~p~m~q~a~s~...");
         Chroma.Initialize();
         colorMichael.RegisterAll();
         colorFranklin.RegisterAll();
