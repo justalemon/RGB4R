@@ -23,7 +23,7 @@ public static class Chroma
     /// <summary>
     /// Whether the Razer Synapse subsystem is ready to work.
     /// </summary>
-    public static bool IsReady { get; private set; }
+    public static bool IsReady => Endpoint != null;
     /// <summary>
     /// The currently assigned endpoint.
     /// </summary>
@@ -66,7 +66,7 @@ public static class Chroma
         }
 
         Endpoint = response.Uri;
-        IsReady = true;
+        lastHeartbeat = 0;
     }
     /// <summary>
     /// Sends a heartbeat to the Razer Ports.
@@ -75,7 +75,15 @@ public static class Chroma
     {
         if (IsReady && lastHeartbeat + 1000 <= Game.GameTime)
         {
-            Endpoint.Clone().AppendPathSegment("heartbeat").PutAsync().Yield();
+            try
+            {
+                Endpoint.Clone().AppendPathSegment("heartbeat").PutAsync().Yield();
+            }
+            catch (FlurlHttpException)
+            {
+                Endpoint = null;
+            }
+
             lastHeartbeat = Game.GameTime;
         }
     }
@@ -87,6 +95,7 @@ public static class Chroma
         if (IsReady)
         {
             Endpoint.DeleteAsync().Yield();
+            Endpoint = null;
         }
     }
 
