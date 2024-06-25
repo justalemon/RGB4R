@@ -12,9 +12,9 @@ public class RGB4R : Script
 {
     #region Fields
     
-    private static readonly EffectStatic colorMichael = GetEffectFromGameColor(153);
+    private static readonly EffectStatic colorMichael = GetEffectFromGameColor(155);
     private static readonly EffectStatic colorFranklin = GetEffectFromGameColor(154);
-    private static readonly EffectStatic colorTrevor = GetEffectFromGameColor(155);
+    private static readonly EffectStatic colorTrevor = GetEffectFromGameColor(153);
     private static readonly EffectStatic colorFreemode = GetEffectFromGameColor(123);
 
     private static readonly Configuration config = Configuration.Load();
