@@ -17,9 +17,13 @@ public class RGB4R : Script
     private static readonly EffectStatic colorFranklin = GetEffectFromGameColor(154);
     private static readonly EffectStatic colorTrevor = GetEffectFromGameColor(153);
     private static readonly EffectStatic colorFreemode = GetEffectFromGameColor(123);
+    private static readonly EffectStatic colorSirenRed = new EffectStatic(Color.Red);
+    private static readonly EffectStatic colorSirenBlue = new EffectStatic(Color.Blue);
 
     private static readonly Configuration config = Configuration.Load();
 
+    private static int lastWantedChange = 0;
+    private static EffectStatic lastWantedColor = colorSirenRed;
     private static Model lastModel = 0;
 
     #endregion
@@ -82,32 +86,48 @@ public class RGB4R : Script
         }
 
         Chroma.PerformHeartbeat();
+        int wanted = Game.Player.WantedLevel;
 
-        Model currentModel = Game.Player.Character.Model;
-
-        if (lastModel != currentModel)
+        if (wanted > 0)
         {
-            EffectStatic effect;
-
-            switch ((PedHash)currentModel)
+            int timerSwitch = 1000 / wanted;
+            
+            if (lastWantedChange + timerSwitch < Game.GameTime)
             {
-                case PedHash.Franklin:
-                case PedHash.Franklin02:
-                    effect = colorFranklin;
-                    break;
-                case PedHash.Michael:
-                    effect = colorMichael;
-                    break;
-                case PedHash.Trevor:
-                    effect = colorTrevor;
-                    break;
-                default:
-                    effect = colorFreemode;
-                    break;
+                lastWantedColor = lastWantedColor == colorSirenRed ? colorSirenBlue : colorSirenRed;
+                lastWantedColor.Play();
+                lastWantedChange = Game.GameTime;
             }
+        }
+        else
+        {
+            Model currentModel = Game.Player.Character.Model;
+            
+            if (lastModel != currentModel || lastWantedChange != 0)
+            {
+                EffectStatic effect;
 
-            effect.Play();
-            lastModel = currentModel;
+                switch ((PedHash)currentModel)
+                {
+                    case PedHash.Franklin:
+                    case PedHash.Franklin02:
+                        effect = colorFranklin;
+                        break;
+                    case PedHash.Michael:
+                        effect = colorMichael;
+                        break;
+                    case PedHash.Trevor:
+                        effect = colorTrevor;
+                        break;
+                    default:
+                        effect = colorFreemode;
+                        break;
+                }
+
+                effect.Play();
+                lastModel = currentModel;
+                lastWantedChange = 0;
+            }
         }
     }
     private void OnKeyDown(object sender, KeyEventArgs e)
