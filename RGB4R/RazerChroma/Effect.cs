@@ -12,6 +12,12 @@ namespace RGB4R.RazerChroma;
 /// </summary>
 public abstract class Effect
 {
+    #region Fields
+
+    private static readonly Device[] devices = (Device[])Enum.GetValues(typeof(Device));
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -23,6 +29,16 @@ public abstract class Effect
     
     #region Functions
     
+    /// <summary>
+    /// Registers the effect for all of the devices.
+    /// </summary>
+    public void RegisterAll()
+    {
+        foreach (Device device in devices)
+        {
+            Register(device);
+        }
+    }
     /// <summary>
     /// Registers this effect with Razer.
     /// </summary>
