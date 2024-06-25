@@ -77,8 +77,7 @@ public abstract class Effect
             };
 
             Url url = Chroma.Endpoint.Clone().AppendPathSegment("effect");
-            IFlurlResponse r = url.PutJsonAsync(payload).Yield();
-            GTA.UI.Screen.ShowSubtitle(r.GetStringSync());
+            url.PutJsonAsync(payload).Yield();
         }
     }
 
