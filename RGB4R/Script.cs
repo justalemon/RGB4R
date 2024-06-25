@@ -17,9 +17,11 @@ public class RGB4R : Script
     private readonly EffectStatic colorFreemode = GetEffectFromGameColor(123);
 
     private static readonly Configuration config = Configuration.Load();
-    
+
+    private static Model lastModel = 0;
+
     #endregion
-    
+
     #region Constructors
 
     public RGB4R()
@@ -67,6 +69,33 @@ public class RGB4R : Script
     private void OnTick(object sender, EventArgs e)
     {
         Chroma.PerformHeartbeat();
+
+        Model currentModel = Game.Player.Character.Model;
+
+        if (lastModel != currentModel)
+        {
+            EffectStatic effect;
+
+            switch ((PedHash)currentModel)
+            {
+                case PedHash.Franklin:
+                case PedHash.Franklin02:
+                    effect = colorFranklin;
+                    break;
+                case PedHash.Michael:
+                    effect = colorMichael;
+                    break;
+                case PedHash.Trevor:
+                    effect = colorTrevor;
+                    break;
+                default:
+                    effect = colorFreemode;
+                    break;
+            }
+
+            effect.Play();
+            lastModel = currentModel;
+        }
     }
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
