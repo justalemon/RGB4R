@@ -11,10 +11,10 @@ public class RGB4R : Script
 {
     #region Fields
     
-    private readonly EffectStatic colorMichael = GetEffectFromGameColor(153);
-    private readonly EffectStatic colorFranklin = GetEffectFromGameColor(154);
-    private readonly EffectStatic colorTrevor = GetEffectFromGameColor(155);
-    private readonly EffectStatic colorFreemode = GetEffectFromGameColor(123);
+    private static readonly EffectStatic colorMichael = GetEffectFromGameColor(153);
+    private static readonly EffectStatic colorFranklin = GetEffectFromGameColor(154);
+    private static readonly EffectStatic colorTrevor = GetEffectFromGameColor(155);
+    private static readonly EffectStatic colorFreemode = GetEffectFromGameColor(123);
 
     private static readonly Configuration config = Configuration.Load();
 
@@ -26,7 +26,7 @@ public class RGB4R : Script
 
     public RGB4R()
     {
-        Tick += OnInit;
+        Tick += OnTick;
         KeyDown += OnKeyDown;
         KeyUp += OnKeyUp;
         Aborted += OnAborted;
@@ -50,27 +50,25 @@ public class RGB4R : Script
         Color color = Color.FromArgb(255, r, g, b);
         return new EffectStatic(color);
     }
-
-    #endregion
-
-    #region Event Functions
-
-    private void OnInit(object sender, EventArgs e)
+    private static void StartChroma()
     {
         Chroma.Initialize();
         colorMichael.RegisterAll();
         colorFranklin.RegisterAll();
         colorTrevor.RegisterAll();
         colorFreemode.RegisterAll();
-        Wait(100);
-        Tick -= OnInit;
-        Tick += OnTick;
+        Wait(10);
     }
+
+    #endregion
+
+    #region Event Functions
+
     private void OnTick(object sender, EventArgs e)
     {
-        while (!Chroma.IsReady)
+        if (!Chroma.IsReady)
         {
-            Yield();
+            StartChroma();
         }
 
         Chroma.PerformHeartbeat();
