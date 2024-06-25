@@ -14,7 +14,7 @@ public abstract class Effect
 {
     #region Fields
 
-    private static readonly Device[] devices = (Device[])Enum.GetValues(typeof(Device));
+    private static readonly Device[] allDevices = (Device[])Enum.GetValues(typeof(Device));
 
     #endregion
 
@@ -34,7 +34,7 @@ public abstract class Effect
     /// </summary>
     public void RegisterAll()
     {
-        foreach (Device device in devices)
+        foreach (Device device in allDevices)
         {
             Register(device);
         }
@@ -49,7 +49,17 @@ public abstract class Effect
     /// <param name="device">The device type to check.</param>
     public bool IsRegistered(Device device) => Ids.ContainsKey(device);
     /// <summary>
-    /// Plays the animation.
+    /// Plays the effect on all devices.
+    /// </summary>
+    public void Play()
+    {
+        foreach (Device device in allDevices)
+        {
+            Play(device);
+        }
+    }
+    /// <summary>
+    /// Plays the effect.
     /// </summary>
     /// <param name="devices">The devices to play the animation in.</param>
     public void Play(params Device[] devices)
