@@ -58,7 +58,7 @@ public static class Chroma
         };
 
         IFlurlResponse flurlResponse = registrationUri.PostJsonAsync(initData).Yield();
-        InitResponse response = flurlResponse.GetJsonSync<InitResponse>();
+        InitResponse response = flurlResponse.GetJsonAsync<InitResponse>().Yield();
 
         if (response.ErrorCode != RazerError.Success)
         {
