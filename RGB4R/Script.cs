@@ -102,6 +102,7 @@ public class RGB4R : Script
             effectReserveCounter--;
             return;
         }
+
         int wanted = Game.Player.WantedLevel;
 
         if (wanted > 0)
@@ -122,6 +123,8 @@ public class RGB4R : Script
         if (lastModel != currentModel || lastWantedChange != 0 || bypass)
         {
             moneyLastFrame = moneyThisFrame;
+            lastModel = currentModel;
+            lastWantedChange = 0;
             bypass = false;
 
             switch ((PedHash)currentModel)
@@ -129,20 +132,17 @@ public class RGB4R : Script
                 case PedHash.Franklin:
                 case PedHash.Franklin02:
                     colorFranklin.Play();
-                    break;
+                    return;
                 case PedHash.Michael:
                     colorMichael.Play();
-                    break;
+                    return;
                 case PedHash.Trevor:
                     colorTrevor.Play();
-                    break;
+                    return;
                 default:
                     colorFreemode.Play();
-                    break;
+                    return;
             }
-
-            lastModel = currentModel;
-            lastWantedChange = 0;
         }
 
         if (moneyThisFrame != moneyLastFrame)
