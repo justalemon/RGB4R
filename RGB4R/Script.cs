@@ -67,11 +67,11 @@ public class RGB4R : Script
     {
         Notification.Show($"Connecting to ~r~R~g~a~y~z~o~e~p~r ~r~C~g~h~y~r~o~o~p~m~q~a~s~...");
         Chroma.Initialize();
+        Wait(1000);
         colorMichael.RegisterAll();
         colorFranklin.RegisterAll();
         colorTrevor.RegisterAll();
         colorFreemode.RegisterAll();
-        Wait(10);
     }
 
     #endregion
