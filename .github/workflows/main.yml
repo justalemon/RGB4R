@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.1
         with:
@@ -46,7 +46,7 @@ jobs:
       - lint-and-compile
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.1
         with:
