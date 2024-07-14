@@ -83,6 +83,7 @@ public class RGB4R : Script
         if (!Chroma.IsReady)
         {
             StartChroma();
+            return;
         }
 
         Chroma.PerformHeartbeat();
