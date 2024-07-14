@@ -65,7 +65,7 @@ public class RGB4R : Script
     }
     private static void StartChroma()
     {
-        Notification.Show($"Connecting to ~r~R~g~a~y~z~o~e~p~r ~r~C~g~h~y~r~o~o~p~m~q~a~s~...");
+        Notification.Show($"Connecting to Razer Chroma~n~Please wait...");
         Chroma.Initialize();
         Wait(1000);
         colorMichael.RegisterAll();
