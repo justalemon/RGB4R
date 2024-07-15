@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using GTA.Native;
 using GTA.UI;
 using RGB4R.RazerChroma;
+using System.Diagnostics;
 
 namespace RGB4R;
 
@@ -28,8 +29,9 @@ public class RGB4R : Script
     private int lastWantedChange = 0;
     private int effectReserveCounter = 0;
 
+    private Stopwatch timer = new Stopwatch();
     private bool bypass = false;
-
+    private bool wasStopWatchRunningLastFrame = false;
     private EffectStatic lastWantedColor = colorSirenRed;
     private Model lastModel = 0;
 
@@ -97,10 +99,16 @@ public class RGB4R : Script
 
         Chroma.PerformHeartbeat();
 
-        if (effectReserveCounter != 0)
+        if (timer.IsRunning && timer.ElapsedMilliseconds < effectReserveCounter)
         {
-            effectReserveCounter--;
+            wasStopWatchRunningLastFrame = true;
             return;
+        }
+
+        if (wasStopWatchRunningLastFrame)
+        {
+            timer.Stop();
+            wasStopWatchRunningLastFrame = false;
         }
 
         int wanted = Game.Player.WantedLevel;
@@ -148,10 +156,15 @@ public class RGB4R : Script
         if (moneyThisFrame != moneyLastFrame)
         {
             int diffrence = moneyThisFrame - moneyLastFrame;
+            moneyLastFrame = moneyThisFrame;
 
             bypass = true; //Prevent devices from not showing any effect
+
             effectReserveCounter = 430; //This could be added to the config
-            moneyLastFrame = moneyThisFrame;
+
+            timer.Reset();
+            timer.Start();
+
             if (diffrence > 0)
             {
                 colorMoneyGain.Play();
@@ -161,8 +174,14 @@ public class RGB4R : Script
             colorMoneyLoss.Play();
         }
     }
-    private void OnKeyDown(object sender, KeyEventArgs e) { }
-    private void OnKeyUp(object sender, KeyEventArgs e) { }
+    private void OnKeyDown(object sender, KeyEventArgs e) 
+    { 
+
+    }
+    private void OnKeyUp(object sender, KeyEventArgs e) 
+    {
+
+    }
     private void OnAborted(object sender, EventArgs e)
     {
         Chroma.Uninitialize();
