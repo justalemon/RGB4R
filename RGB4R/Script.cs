@@ -27,11 +27,11 @@ public class RGB4R : Script
 
     private int moneyLastFrame = -1;
     private int lastWantedChange = 0;
-    private int effectReserveCounter = 0;
+    private int reservationStart = 0;
 
-    private Stopwatch timer = new Stopwatch();
     private bool bypass = false;
-    private bool wasStopWatchRunningLastFrame = false;
+    private bool isReservered = false;
+
     private EffectStatic lastWantedColor = colorSirenRed;
     private Model lastModel = 0;
 
@@ -99,23 +99,18 @@ public class RGB4R : Script
 
         Chroma.PerformHeartbeat();
 
-        if (timer.IsRunning && timer.ElapsedMilliseconds < effectReserveCounter)
+        int time = Game.GameTime;
+        if (isReservered && reservationStart + 430 < time)
         {
-            wasStopWatchRunningLastFrame = true;
             return;
         }
+        isReservered = false;
 
-        if (wasStopWatchRunningLastFrame)
-        {
-            timer.Stop();
-            wasStopWatchRunningLastFrame = false;
-        }
 
         int wanted = Game.Player.WantedLevel;
 
         if (wanted > 0)
         {
-            int time = Game.GameTime;
             if (lastWantedChange + 1000 / wanted < time)
             {
                 lastWantedColor = lastWantedColor == colorSirenRed ? colorSirenBlue : colorSirenRed;
@@ -158,12 +153,10 @@ public class RGB4R : Script
             int diffrence = moneyThisFrame - moneyLastFrame;
             moneyLastFrame = moneyThisFrame;
 
-            bypass = true; //Prevent devices from not showing any effect
+            bypass = true;
+            isReservered = true;
 
-            effectReserveCounter = 430; //This could be added to the config
-
-            timer.Reset();
-            timer.Start();
+            reservationStart = time;
 
             if (diffrence > 0)
             {
