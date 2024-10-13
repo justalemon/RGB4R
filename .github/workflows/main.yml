@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.1
         with:
@@ -35,7 +35,7 @@ jobs:
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: dotnet build ${{ github.event.repository.name }}.sln -c ${{ matrix.configuration }}
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: ${{ github.event.repository.name }}.${{ matrix.configuration }}
           path: bin/${{ matrix.configuration }}
@@ -46,7 +46,7 @@ jobs:
       - lint-and-compile
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
       - name: Setup .NET
         uses: actions/setup-dotnet@v4.0.1
         with:
