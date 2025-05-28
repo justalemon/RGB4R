@@ -35,7 +35,7 @@ jobs:
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: dotnet build ${{ github.event.repository.name }}.sln -c ${{ matrix.configuration }}
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: ${{ github.event.repository.name }}.${{ matrix.configuration }}
           path: bin/${{ matrix.configuration }}
