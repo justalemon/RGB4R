@@ -59,7 +59,7 @@ jobs:
       - name: Repackage Files
         run: 7z a ${{ github.event.repository.name }}.zip ${{ github.workspace }}/bin/Release/*
       - name: Create Release
-        uses: ncipollo/release-action@v1.15.0
+        uses: ncipollo/release-action@v1.16.0
         with:
           allowUpdates: true
           artifactErrorsFailBuild: true
