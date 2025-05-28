@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4.2.0
+        uses: actions/setup-dotnet@v4.3.1
         with:
           dotnet-version: "8.x"
       - name: Restore NuGet Packages
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4.2.0
+        uses: actions/setup-dotnet@v4.3.1
         with:
           dotnet-version: "8.0.x"
       - name: Download the Artifact
